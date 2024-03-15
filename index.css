@@ -27,6 +27,28 @@
     margin: 10px;
 }
 
+.login-btn {
+    margin: 10px;
+    padding: 10px;
+    height: 50%;
+    cursor: pointer;
+}
+
+.top-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-input {
+    width: 200px;
+    height: 25px;
+}
+
+.search-btn {
+    height: 30px;
+    cursor: pointer;
+}
+
 .res-container {
     display: flex;
     flex-wrap: wrap;
@@ -64,6 +86,7 @@
 
 .btn-filter {
     margin: 10px;
+    height: 30px;
     cursor: pointer;
 }
 
