@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LOGO_URL } from '../utils/constants';
 
 const Header = () => {
@@ -15,8 +15,8 @@ const Header = () => {
             <div className="nav-items">
                 <ul>
                     <li>Home</li>
-                    <li>About Us</li>
-                    <li>Contact</li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
                     <li>Cart</li>
                     <button
                         className='login-btn'
