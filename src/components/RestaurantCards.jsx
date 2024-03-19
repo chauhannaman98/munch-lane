@@ -12,20 +12,24 @@ const RestaurantCards = (props) => {
         costForTwo
     } = ResData?.info
 
-    url = 'url("https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/' + { cloudinaryImageId } + '")'
-
     return (
-        <div className="res-card" style={{ backgroundColor: "#f0f0f0" }}>
-            <img
-                className="res-logo"
-                alt="res-logo"
-                src={CDN_URL + cloudinaryImageId}
-            />
-            <h3>{name}</h3>
-            <h4>{cuisines.join(", ")}</h4>
-            <h4>{avgRating}</h4>
+        <div
+            className="res-card m-4 p-4 w-56 flex flex-col justify-center
+                        shadow-lg rounded-2xl"
+            style={{ backgroundColor: "#f0f0f0" }}>
+            <div
+                className="w-50 flex justify-center mb-4">
+                <img
+                    className="res-logo object-cover w-full h-48 rounded-2xl"
+                    alt="res-logo"
+                    src={CDN_URL + cloudinaryImageId}
+                />
+            </div>
+            <h3 className="font-bold">{name}</h3>
+            <h4>⭐{avgRating}&nbsp; • &nbsp;{sla.deliveryTime} mins</h4>
+            <h4 className="font-thin">{cuisines.join(", ")}</h4>
             <h4>{costForTwo}</h4>
-            <h4>{sla.deliveryTime} mins</h4>
+            <h4></h4>
         </div>
     );
 };

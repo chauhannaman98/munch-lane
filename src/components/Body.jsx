@@ -39,18 +39,18 @@ const Body = () => {
         <Shimmer />
     ) : (
         <div className="body">
-            <div className="top-container">
+            <div className="top-container flex p-4 justify-between">
                 <div className="search">
                     <input
                         type="text"
-                        className="search-input"
+                        className="search-input w-80 mr-6 border-2 border-solid border-slate-500 rounded-full p-1 px-4"
                         placeholder="Search your favorite restaurant"
                         onChange={(e) => {
                             setSearchText(e.target.value);
                         }}
                     />
                     <button
-                        className="search-btn"
+                        className="search-btn bg-[#0d3b66] text-white p-1 px-4 rounded-full"
                         value={searchText}
                         onClick={() => {
                             const filteredRestaurant = listOfRestaurants.filter(
@@ -62,9 +62,9 @@ const Body = () => {
                         Search
                     </button>
                 </div>
-                <div className="filter">
+                <div className="filter ">
                     <button
-                        className="btn-filter"
+                        className="btn-filter border-gray-500 border-solid border-2 rounded-full p-1 px-4 shadow-lg"
                         onClick={() => {
                             const filteredList = listOfRestaurants.filter(
                                 (res) => res.info.avgRating > 4
@@ -72,11 +72,11 @@ const Body = () => {
                             setFilteredRestaurants(filteredList);
                         }}
                     >
-                        Top Rated Restaurant
+                        Ratings 4.0+
                     </button>
                 </div>
             </div>
-            <div className="res-container">
+            <div className="res-container flex mt-4 p-10 px-48 flex-wrap justify-evenly">
                 {
                     filteredRestaurant.map(restaurant => (
                         <Link
