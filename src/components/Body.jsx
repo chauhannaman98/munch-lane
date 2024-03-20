@@ -8,12 +8,21 @@ const Body = () => {
     // state variable
     const [listOfRestaurants, setListOfRestaurants] = useState([]);
     const [filteredRestaurant, setFilteredRestaurants] = useState([]);
-
+    const [ratingsFilter, setRatingsFilter] = useState(false);
     const [searchText, setSearchText] = useState('');
 
     const RestaurantCardOnline = withIsOpenLabel(RestaurantCards);
 
     const onlineSatus = useOnlineStatus();
+
+    useEffect(() => {
+        const filteredList = listOfRestaurants.filter(
+            (res) => res.info.avgRating > 4
+        );
+        ratingsFilter === true
+            ? setFilteredRestaurants(filteredList)
+            : setFilteredRestaurants(listOfRestaurants);
+    }, [ratingsFilter]);
 
     useEffect(() => {
         fetchData();
