@@ -1,4 +1,4 @@
-import RestaurantCards from "./RestaurantCards";
+import RestaurantCards, { withIsOpenLabel } from "./RestaurantCards";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ const Body = () => {
     const [filteredRestaurant, setFilteredRestaurants] = useState([]);
 
     const [searchText, setSearchText] = useState('');
+
+    const RestaurantCardOnline = withIsOpenLabel(RestaurantCards);
 
     const onlineSatus = useOnlineStatus();
 
@@ -83,7 +85,11 @@ const Body = () => {
                             to={"/restaurants/" + restaurant.info.id}
                             key={restaurant.info.id}
                         >
-                            <RestaurantCards ResData={restaurant} />
+                            {
+                                restaurant.info.isOpen
+                                    ? (<RestaurantCardOnline ResData={restaurant} />)
+                                    : (<RestaurantCards ResData={restaurant} />)
+                            }
                         </Link>
                     ))
                 }
