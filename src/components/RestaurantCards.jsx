@@ -15,7 +15,7 @@ const RestaurantCards = (props) => {
     return (
         <div
             className="res-card m-4 p-4 w-56 flex flex-col justify-center
-                        shadow-lg rounded-2xl"
+                        shadow-lg rounded-2xl hover:transition ease-out  delay-100 duration-500 hover:scale-90"
             style={{ backgroundColor: "#f0f0f0" }}>
             <div
                 className="w-50 flex justify-center mb-4">
@@ -40,7 +40,7 @@ export const withIsOpenLabel = (RestaurantCards) => {
         return (
             <div>
                 <label
-                    className="m-2 p-2 rounded-lg shadow-lg absolute bg-[#faf0ca] text-green-500 font-bold"
+                    className="z-10 m-2 p-2 rounded-lg shadow-lg absolute bg-[#faf0ca] text-green-500 font-bold"
                 >
                     Open
                 </label>
