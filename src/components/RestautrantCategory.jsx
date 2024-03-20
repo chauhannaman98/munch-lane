@@ -1,7 +1,10 @@
 import ItemList from "./ItemList";
 
-const RestaurantCategory = (props) => {
-    const { card } = props?.card?.card;
+const RestaurantCategory = ({ card, showItems, setShowIndex }) => {
+
+    const handleClick = () => {
+        setShowIndex();
+    };
 
     return (
         <div>
@@ -10,11 +13,11 @@ const RestaurantCategory = (props) => {
                     className="flex justify-between cursor-pointer"
                     onClick={handleClick}
                 >
-                    <span className="font-medium text-xl">{card?.title} ({card?.itemCards.length})</span>
+                    <span className="font-medium text-xl">{card?.card?.card?.title} ({card?.card?.card?.itemCards.length})</span>
                     <span>⬇️</span>
                 </div>
                 {
-                    showItems && <ItemList items={card} />
+                    showItems && <ItemList items={card.card.card} />
                 }
             </div>
         </div>
