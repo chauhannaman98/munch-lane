@@ -46,9 +46,7 @@ const Body = () => {
         );
     }
 
-    return listOfRestaurants.length === 0 ? (
-        <Shimmer />
-    ) : (
+    return (
         <div className="body">
             <div className="top-container flex p-4 justify-between">
                 <div className="search">
@@ -75,35 +73,38 @@ const Body = () => {
                 </div>
                 <div className="filter ">
                     <button
-                        className="btn-filter border-gray-500 border-solid border-2 rounded-full p-1 px-4 shadow-lg"
+                        className="btn-ratings-filter border-gray-500 border-solid border-2 rounded-full p-1 px-4 shadow-lg"
                         onClick={() => {
-                            const filteredList = listOfRestaurants.filter(
-                                (res) => res.info.avgRating > 4
-                            );
-                            setFilteredRestaurants(filteredList);
+                            ratingsFilter ? setRatingsFilter(false) : setRatingsFilter(true);
                         }}
                     >
                         Ratings 4.0+
                     </button>
                 </div>
             </div>
-            <div className="res-container flex mt-4 p-10 px-48 flex-wrap justify-evenly">
-                {
-                    filteredRestaurant.map(restaurant => (
-                        <Link
-                            to={"/restaurants/" + restaurant.info.id}
-                            key={restaurant.info.id}
-                        >
-                            {
-                                restaurant.info.isOpen
-                                    ? (<RestaurantCardOnline ResData={restaurant} />)
-                                    : (<RestaurantCards ResData={restaurant} />)
-                            }
-                        </Link>
-                    ))
-                }
-            </div>
-        </div>
+            {
+                listOfRestaurants.length === 0 ? (
+                    <Shimmer />
+                ) : (
+                    <div className="res-container flex mt-4 p-10 px-48 flex-wrap justify-evenly">
+                        {
+                            filteredRestaurant.map(restaurant => (
+                                <Link
+                                    to={"/restaurants/" + restaurant.info.id}
+                                    key={restaurant.info.id}
+                                >
+                                    {
+                                        restaurant.info.isOpen
+                                            ? (<RestaurantCardOnline ResData={restaurant} />)
+                                            : (<RestaurantCards ResData={restaurant} />)
+                                    }
+                                </Link>
+                            ))
+                        }
+                    </div>
+                )
+            }
+        </div >
     );
 };
 
