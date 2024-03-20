@@ -73,7 +73,10 @@ const Body = () => {
                 </div>
                 <div className="filter ">
                     <button
-                        className="btn-ratings-filter border-gray-500 border-solid border-2 rounded-full p-1 px-4 shadow-lg"
+                        style={
+                            ratingsFilter ? { backgroundColor: "#f4d35e" } : { backgroundColor: "white" }
+                        }
+                        className="btn-ratings-filter border-[#f4d35e] border-solid border-2 rounded-full p-1 px-4 shadow-lg"
                         onClick={() => {
                             ratingsFilter ? setRatingsFilter(false) : setRatingsFilter(true);
                         }}
