@@ -9,6 +9,8 @@ const RestaurantMenu = () => {
     const [showIndex, setShowIndex] = useState(0);
     const { resID } = useParams();
 
+    const dummy = "Dummy Data";
+
     const resInfo = useRestaurantMenu(resID);
 
     if (resInfo === null) return <Shimmer />;
@@ -40,6 +42,7 @@ const RestaurantMenu = () => {
                         card={category}
                         showItems={index === showIndex ? true : false}
                         setShowIndex={() => setShowIndex(index)}
+                        dummy={dummy}
                     />
                 ))}
             </div>

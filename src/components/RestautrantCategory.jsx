@@ -1,6 +1,6 @@
 import ItemList from "./ItemList";
 
-const RestaurantCategory = ({ card, showItems, setShowIndex }) => {
+const RestaurantCategory = ({ card, showItems, setShowIndex, dummy }) => {
 
     const handleClick = () => {
         setShowIndex();
@@ -17,7 +17,7 @@ const RestaurantCategory = ({ card, showItems, setShowIndex }) => {
                     <span>⬇️</span>
                 </div>
                 {
-                    showItems && <ItemList items={card.card.card} />
+                    showItems && <ItemList items={card.card.card} dummy={dummy} />
                 }
             </div>
         </div>
