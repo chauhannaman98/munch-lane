@@ -1,8 +1,9 @@
 import RestaurantCards, { withIsOpenLabel } from "./RestaurantCards";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
     // state variable
@@ -10,6 +11,9 @@ const Body = () => {
     const [filteredRestaurant, setFilteredRestaurants] = useState([]);
     const [ratingsFilter, setRatingsFilter] = useState(false);
     const [searchText, setSearchText] = useState('');
+    const [usernameInput, setUsernameInput] = useState();
+
+    const { loggedInUser, setUsername } = useContext(UserContext);
 
     const RestaurantCardOnline = withIsOpenLabel(RestaurantCards);
 
@@ -69,6 +73,19 @@ const Body = () => {
                         }}
                     >
                         Search
+                    </button>
+                    <label className="ml-4">Input Username: </label>
+                    <input
+                        className="px-2 border border-black rounded-full"
+                        onChange={(e) => { setUsernameInput(e.target.value) }}
+                    >
+                    </input>
+                    <button
+                        className="ml-2 bg-[#0d3b66] text-white p-1 px-4 rounded-full"
+                        value={loggedInUser}
+                        onClick={() => { setUsername(usernameInput) }}
+                    >
+                        Submit
                     </button>
                 </div>
                 <div className="filter ">
