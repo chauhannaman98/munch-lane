@@ -14,3 +14,11 @@
     - Links
     - Address
     - Contact
+
+## Redux Toolkit
+- Install the @reduxjs/toolkit and react-redux
+- Build own redux store
+- Connect store to app
+- Create a cartSlice
+- dispatch an action
+- read data using Selector
