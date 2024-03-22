@@ -1,5 +1,5 @@
-import User from "./User";
-import UserClass from "./UserClass";
+import User from "./User/User";
+import UserClass from "./User/UserClass";
 
 const About = () => {
     return (

@@ -7,12 +7,12 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Error from "./components/Error";
-import RestaurantMenu from "./components/RestaurantMenu";
-import Shimmer from "./components/Shimmer";
+import Error from "./components/Auxiliary/Error";
+import RestaurantMenu from "./components/Restaurant/RestaurantMenu";
+import Shimmer from "./components/Auxiliary/Shimmer";
 import UserContext from "./utils/UserContext";
 import appStore from "./utils/redux/appStore";
-import Cart from "./components/Cart";
+import Cart from "./components/Cart/Cart";
 
 const Grocery = lazy(() => import("./components/Grocery"));
 
