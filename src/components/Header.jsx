@@ -10,7 +10,6 @@ const Header = () => {
     const { loggedInUser } = useContext(UserContext);
 
     const cartItems = useSelector((store) => store.cart.items);
-    console.log(cartItems);
 
     return (
         <div className="header flex justify-between p-4 shadow-lg mb-2">
@@ -36,7 +35,9 @@ const Header = () => {
                         <Link to="/contact">Contact</Link>
                     </li>
                     <li className='px-4 font-bold hover:text-[#ee964b] cursor-pointer'>
-                        Cart ({cartItems.length})
+                        <Link to="/cart">
+                            Cart ({cartItems.length})
+                        </Link>
                     </li>
                     <button
                         className='login-btn px-4 hover:text-[#ee964b]'

@@ -1,17 +1,10 @@
-import { useDispatch } from "react-redux";
-import { addItem } from "../utils/redux/cartSlice";
-
-const ItemList = ({ items, dummy }) => {
-    const dispatch = useDispatch();
-
-    const handleAddItem = (item) => {
-        dispatch(addItem(item));
-    };
+const CartItems = ({ items }) => {
+    console.log(items);
 
     return (
         <div>
             {
-                items.itemCards.map((item) => (
+                items.map((item) => (
                     <div
                         key={item.card.info.id}
                         className="flex justify-between my-6 border-b-2 border-solid border-slate-200"
@@ -34,7 +27,7 @@ const ItemList = ({ items, dummy }) => {
                             <button
                                 className="w-24 h-10 border-[#00A300] border-solid border-2 text-[#00A300]
                                                 rounded-lg hover:shadow-lg hover:bg-[#00A300] hover:text-white"
-                                onClick={() => handleAddItem(item)}
+                            // onClick={() => handleAddItem(item)}
                             >
                                 Add +
                             </button>
@@ -42,8 +35,8 @@ const ItemList = ({ items, dummy }) => {
                     </div>
                 ))
             }
-        </div >
+        </div>
     );
 };
 
-export default ItemList;
+export default CartItems;
