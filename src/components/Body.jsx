@@ -50,6 +50,20 @@ const Body = () => {
         );
     }
 
+    const searchFilterCallback = (searchText) => {
+        if (searchText.length > 0) {
+            const results = [];
+            listOfRestaurants.map((restaurant) => {
+                const match = restaurant.info.cuisines.filter(
+                    (cuisine) => cuisine.toLowerCase().includes(searchText.toLowerCase())
+                );
+                if (match.length > 0) results.push(restaurant);
+            });
+            setFilteredRestaurants(results);
+        }
+        else setFilteredRestaurants(listOfRestaurants);
+    };
+
     return (
         <div className="body">
             <div className="top-container flex p-4 justify-between">
@@ -60,16 +74,14 @@ const Body = () => {
                         placeholder="Search your favorite restaurant"
                         onChange={(e) => {
                             setSearchText(e.target.value);
+                            searchFilterCallback(searchText);
                         }}
                     />
                     <button
                         className="search-btn bg-[#0d3b66] text-white p-1 px-4 rounded-full"
                         value={searchText}
                         onClick={() => {
-                            const filteredRestaurant = listOfRestaurants.filter(
-                                (res) => res.info.name.toLowerCase().includes(searchText.toLowerCase())
-                            );
-                            setFilteredRestaurants(filteredRestaurant);
+                            searchFilterCallback(searchText);
                         }}
                     >
                         Search
