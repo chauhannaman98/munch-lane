@@ -13,7 +13,9 @@ const cartSlice = createSlice({
             state.items.pop();
         },
         clearCart: (state) => {
-            state.items.length = 0;
+            // items: [ some elements ]
+            // it will return and change the state to the retrun value
+            return { items: [] }
         },
     },
 });
