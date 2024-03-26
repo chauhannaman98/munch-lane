@@ -70,6 +70,7 @@ const Body = () => {
                 <div className="search">
                     <input
                         type="text"
+                        data-testid="search-input"
                         className="search-input w-80 mr-6 border-2 border-solid border-slate-500 rounded-full p-1 px-4"
                         placeholder="Search your favorite restaurant"
                         onChange={(e) => {
@@ -102,6 +103,7 @@ const Body = () => {
                 </div>
                 <div className="filter ">
                     <button
+                        data-testid="top-filter"
                         style={
                             ratingsFilter ? { backgroundColor: "#f4d35e" } : { backgroundColor: "white" }
                         }

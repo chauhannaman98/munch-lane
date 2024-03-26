@@ -34,7 +34,9 @@ const Header = () => {
                     <li className='px-4 hover:text-[#ee964b]'>
                         <Link to="/contact">Contact</Link>
                     </li>
-                    <li className='px-4 font-bold hover:text-[#ee964b] cursor-pointer'>
+                    <li
+                        data-testid="cart"
+                        className='px-4 font-bold hover:text-[#ee964b] cursor-pointer'>
                         <Link to="/cart">
                             Cart ({cartItems.length})
                         </Link>

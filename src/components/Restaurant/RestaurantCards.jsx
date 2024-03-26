@@ -14,6 +14,7 @@ const RestaurantCards = (props) => {
 
     return (
         <div
+            data-testid="resCards"
             className="res-card m-4 p-4 w-56 flex flex-col justify-center
                         shadow-lg rounded-2xl hover:transition ease-out  delay-100 duration-500 hover:scale-90"
             style={{ backgroundColor: "#f0f0f0" }}>
