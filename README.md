@@ -33,3 +33,7 @@
 - Install jest
 - Install Babel dependencies
 - Configure babel.config.js
+- Configure jest
+- Install jsdom library
+- Install @babel/preset-react
+- Install @testing-library/jest-dom
