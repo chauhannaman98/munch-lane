@@ -22,3 +22,14 @@
 - Create a cartSlice
 - dispatch an action
 - read data using Selector
+
+## Types of testing (developer)
+- Unit tests
+- Integration tests
+- End to end tests - e2e tests
+
+### Setting up testing
+- Install React testing library
+- Install jest
+- Install Babel dependencies
+- Configure babel.config.js
