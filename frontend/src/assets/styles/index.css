@@ -19,6 +19,9 @@ main {
 .product-title {
     height: 2.5em;
     /* Set a fixed height */
+    /* display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; */
     overflow: hidden;
     /* Hide overflow content */
     text-overflow: ellipsis;
