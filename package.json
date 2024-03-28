@@ -14,6 +14,7 @@
   "author": "Naman Chauhan",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
     "mongoose": "^8.2.3"
   },
