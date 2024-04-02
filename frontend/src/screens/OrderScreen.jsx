@@ -38,17 +38,15 @@ const OrderScreen = () => {
                                             <strong>Address: </strong>
                                             {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.country} - {order.shippingAddress.postalCode}
                                         </p>
-                                        <p>
-                                            {order.isDelivered ? (
-                                                <Message variant='success'>
-                                                    Delivered on {order.deliveredAt}
-                                                </Message>
-                                            ) : (
-                                                <Message variant='danger'>
-                                                    Not Delivered
-                                                </Message>
-                                            )}
-                                        </p>
+                                        {order.isDelivered ? (
+                                            <Message variant='success'>
+                                                Delivered on {order.deliveredAt}
+                                            </Message>
+                                        ) : (
+                                            <Message variant='danger'>
+                                                Not Delivered
+                                            </Message>
+                                        )}
                                     </ListGroup.Item>
                                     <ListGroup.Item>
                                         <h2>Payment Method</h2>
