@@ -1,5 +1,14 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
+import Razorpay from "razorpay";
+import crypto from "crypto";
+import dotenv from "dotenv";
+dotenv.config();
+
+const instance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 
 // @desc    Create new order
@@ -74,20 +83,70 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     if (order) {
         order.isPaid = true;
         order.paidAt = Date.now();
-        order.paymentResult = {
-            id: req.body.id,
-            status: req.body.status,
-            update_time: req.body.update_time,
-            email_address: req.body.payer.email_address,
-        };
+        // order.paymentResult = {
+        //     id: req.body.id,
+        //     status: req.body.status,
+        //     update_time: req.body.update_time,
+        //     email_address: req.body.payer.email_address,
+        // };
 
-        const updatedOrder = await order.save();
+        try {
+            const updatedOrder = await order.save();
+        } catch (err) {
+            console.log(`Error saving order: ${err}`);
+        }
 
         res.status(201).json(updatedOrder);
     } else {
         res.status(404);
         throw new Error('Order not found');
     }
+});
+
+
+// @desc    Pay via razorpay
+// @router  PUT /api/orders/:id/razorpay
+// @access  Private
+const createOrder = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    let razorpayOrder;
+
+    if (!order) {
+        res.status(404);
+        throw new Error('Order not found');
+    } else {
+        const options = {
+            amount: order.totalPrice * 100,
+            currency: 'INR',
+            receipt: order._id
+        }
+        instance.orders.create(options, (err, order) => {
+            if (!err) {
+                res.status(201).json(order);
+            } else {
+                res.status(500);
+                throw new Error('Something went wrong!');
+            }
+        });
+    }
+});
+
+// @desc    Pay via razorpay
+// @router  PUT /api/orders/:id/razorpay
+// @access  Private
+const razorpayVerify = asyncHandler(async (req, res) => {
+    const { paymentId, razorpayOrderId, signature } = req.body;
+
+    const body = razorpayOrderId + "|" + paymentId;
+
+    const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(body.toString())
+        .digest("hex");
+
+    const isAuthentic = expectedSignature === signature;
+
+    res.status(201).json(isAuthentic);
 });
 
 // @desc    Update order to delivered
@@ -110,5 +169,7 @@ export {
     getOrderById,
     getOrders,
     updateOrderToDelivered,
-    updateOrderToPaid
+    updateOrderToPaid,
+    createOrder,
+    razorpayVerify,
 };

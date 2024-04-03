@@ -10,28 +10,75 @@ import {
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { UseSelector, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import {
     useGetOrderDetailsQuery,
     usePayOrderMutation,
-    useGetPaypalClientIdQuery
+    useGetPaypalClientIdQuery,
+    usePayViaRazorpayMutation,
+    useGetRazorpayClientIdQuery,
+    useVerifyRazorpayMutation
 } from '../slices/ordersApiSlice';
+import loadScript from '../utils/loadScripts';
+
 
 const OrderScreen = () => {
     const { id: orderId } = useParams();
 
     const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
 
+    const { userInfo: { name, email } } = useSelector((state) => state.auth);
+
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+
+    const [payViaRazorPay, { isLoading: loadingRazorPay }] = usePayViaRazorpayMutation();
+    const { data: razorpay, isLoading: loadingRazorpay, error: errorRazorpay } = useGetRazorpayClientIdQuery();
+    const [verifyRazorpay, { isLoading: loadingverify }] = useVerifyRazorpayMutation();
+
+    const [verifyURL, setVerifyURL] = useState('');
+    const [paymentId, setPaymentId] = useState('');
+    const [razorpayOrderId, setRazorpayOrderId] = useState('');
+    const [signature, setSignature] = useState('');
+
+    const verifyTransaction = async (details) => {
+        const { data: isAuthentic } = await verifyRazorpay(details);
+
+        if (isAuthentic) {
+            try {
+                const details = {
+                    id: paymentId,
+                    status: true,
+                    update_time: Date.now(),
+                    email_address: email,
+                }
+                await payOrder({ orderId });
+                refetch();
+                toast.success("Payment successful");
+            } catch (err) {
+                toast.error(err?.data?.message || err.message);
+            }
+        } else {
+            toast.error("Payment failed! Can't verify transaction");
+        }
+    };
+
+    useEffect(() => {
+        const details = {
+            verifyURL: verifyURL,
+            paymentId: paymentId,
+            razorpayOrderId: razorpayOrderId,
+            signature: signature,
+        }
+        verifyTransaction(details);
+    }, [paymentId]);
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
     const { data: paypal, isLoading: loadingPaypal, error: errorPaypal } = useGetPaypalClientIdQuery();
 
-    const { userInfo } = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (!errorPaypal && !loadingPaypal && paypal.clientId) {
@@ -86,6 +133,50 @@ const OrderScreen = () => {
         }).then((orderId) => {
             return orderId;
         });
+    };
+
+    const handleRazorpay = async () => {
+        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+
+        if (!res) {
+            alert('Razropay failed to load!!')
+            return
+        }
+        const razorpayOrder = await payViaRazorPay({ orderId });
+
+        console.log(`razorpay order ${razorpayOrder}`);
+
+        if (!loadingRazorpay) {
+            const options = {
+                "key": razorpay.clientId,
+                "amount": (razorpayOrder.data.amount_due * 100),
+                "currency": "INR",
+                "name": "Techmirtz Inc.",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": razorpayOrder.data.id,
+                // "callback_url": `/api/orders/${razorpayOrder.data.receipt}/razorpay/verify`,
+                "handler": (response) => {
+                    setPaymentId(response.razorpay_payment_id);
+                    setRazorpayOrderId(response.razorpay_order_id);
+                    setSignature(response.razorpay_signature);
+                    setVerifyURL(`/api/orders/${razorpayOrder.data.receipt}/razorpay/verify`);
+                },
+                "prefill": {
+                    "name": name,
+                    "email": email,
+                },
+                "notes": {
+                    "address": "Techmirtz Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            const razor = new window.Razorpay(options);
+            razor.open();
+        }
     };
 
     return (
@@ -196,6 +287,13 @@ const OrderScreen = () => {
                                                                     onError={onError}
                                                                     style={{ layout: "vertical" }}
                                                                 />
+                                                            </div>
+                                                            <div>
+                                                                <Button
+                                                                    onClick={handleRazorpay}
+                                                                >
+                                                                    Pay with RazorPay
+                                                                </Button>
                                                             </div>
                                                         </div>
                                                     )}
