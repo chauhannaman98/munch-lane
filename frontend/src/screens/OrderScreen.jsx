@@ -35,7 +35,7 @@ const OrderScreen = () => {
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
     const [payViaRazorPay, { isLoading: loadingRazorPay }] = usePayViaRazorpayMutation();
-    const { data: razorpay, isLoading: loadingRazorpay, error: errorRazorpay } = useGetRazorpayClientIdQuery();
+    const { data: razorpay, isLoading: loadingRazorpayClientId, error: errorRazorpay } = useGetRazorpayClientIdQuery();
     const [verifyRazorpay, { isLoading: loadingverify }] = useVerifyRazorpayMutation();
 
     const [verifyURL, setVerifyURL] = useState('');
@@ -61,7 +61,10 @@ const OrderScreen = () => {
                 toast.error(err?.data?.message || err.message);
             }
         } else {
-            toast.error("Payment failed! Can't verify transaction");
+            if (!isLoading) {
+                if (order.isPaid) return;
+                toast.error("Payment not completed!");
+            }
         }
     };
 
@@ -136,17 +139,17 @@ const OrderScreen = () => {
     };
 
     const handleRazorpay = async () => {
-        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
         if (!res) {
-            alert('Razropay failed to load!!')
-            return
+            alert('Razropay failed to load!!');
+            return;
         }
         const razorpayOrder = await payViaRazorPay({ orderId });
 
         console.log(`razorpay order ${razorpayOrder}`);
 
-        if (!loadingRazorpay) {
+        if (!loadingRazorpayClientId) {
             const options = {
                 "key": razorpay.clientId,
                 "amount": (razorpayOrder.data.amount_due * 100),
@@ -218,7 +221,14 @@ const OrderScreen = () => {
                                         </p>
                                         {order.isPaid ? (
                                             <Message variant='success'>
-                                                Paid on {order.paidAt}
+                                                Paid on {Date(order.paidAt).toLocaleString("en-US", {
+                                                    timeZone: 'Asia/Kolkata',
+                                                    hour12: true,
+                                                    weekday: "long",
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                })}
                                             </Message>
                                         ) : (
                                             <Message variant='danger'>
