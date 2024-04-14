@@ -20,7 +20,8 @@ import {
     useGetPaypalClientIdQuery,
     usePayViaRazorpayMutation,
     useGetRazorpayClientIdQuery,
-    useVerifyRazorpayMutation
+    useVerifyRazorpayMutation,
+    useDeliverOrderMutation,
 } from '../slices/ordersApiSlice';
 import loadScript from '../utils/loadScripts';
 
@@ -30,7 +31,9 @@ const OrderScreen = () => {
 
     const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
 
-    const { userInfo: { name, email } } = useSelector((state) => state.auth);
+    const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
+
+    const { userInfo: { name, email, isAdmin } } = useSelector((state) => state.auth);
 
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
@@ -182,6 +185,16 @@ const OrderScreen = () => {
         }
     };
 
+    const deliverOrderHandler = async () => {
+        try {
+            const out = await deliverOrder(orderId);
+            refetch();
+            toast.success(`Order ${orderId} delivered`);
+        } catch (error) {
+            toast.error(error?.data?.message || error.message);
+        }
+    };
+
     return (
         isLoading ? (<Loader />)
             : error ? <Message variant='danger'>{error.data.message}</Message>
@@ -309,7 +322,16 @@ const OrderScreen = () => {
                                                     )}
                                                 </ListGroup.Item>
                                             )}
-                                            {/* MARK AS PAID PLACEHOLDER */}
+                                            {loadingDeliver && <Loader />}
+                                            {isAdmin && order.isPaid &&
+                                                !order.isDelivered && (
+                                                    <>
+                                                        <Button type='button' className='btn btn-block mt-4'
+                                                            onClick={deliverOrderHandler}>
+                                                            Mark as Delivered
+                                                        </Button>
+                                                    </>
+                                                )}
                                         </ListGroup.Item>
                                     </ListGroup>
                                 </Card>
