@@ -5,6 +5,7 @@ import { updateCart } from '../utils/cartUtils';
 const initialState = localStorage.getItem('cart')
     ? JSON.parse(localStorage.getItem('cart'))
     : { cartItems: [], shippingAddress: {}, paymentMethod: 'Razorpay' };
+    : { cartItems: [] };
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -52,5 +53,9 @@ export const {
     savePaymentMethod,
     clearCartItems
 } = cartSlice.actions;
+    },
+});
+
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
