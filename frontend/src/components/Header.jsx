@@ -33,8 +33,13 @@ const Header = () => {
                 <Container>
                     <LinkContainer to='/'>
                         <Navbar.Brand>
-                            <img src={logo} alt="Munch Lane" />
-                            Munch Lane
+                            <div style={{ display: 'flex' }}>
+                                <img src={logo} alt="Munch Lane" className='me-2 rounded' />
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}>Munch Lane</div>
+                            </div>
                         </Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />

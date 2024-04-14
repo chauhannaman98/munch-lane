@@ -39,7 +39,3 @@ export const {
     useRegisterMutation,
     useProfileMutation,
 } = usersApiSlice; 
-    }),
-});
-
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } = usersApiSlice; 
