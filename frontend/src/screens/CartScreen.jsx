@@ -110,7 +110,7 @@ const CartScreen = () => {
                                 disabled={cartItems.length === 0}
                                 onClick={checkoutHandler}
                             >
-                                Process to Checkout
+                                Proceed to Checkout
                             </Button>
                         </ListGroupItem>
                     </ListGroup>
