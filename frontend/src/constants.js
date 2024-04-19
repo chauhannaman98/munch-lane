@@ -8,3 +8,4 @@ export const PAYPAL_URL = '/api/config/paypal';
 export const RAZORPAY_CALLBACK_URL = '/api/orders';
 export const SHIPPING_RATE = 120;
 export const FREE_SHIPPING_AMOUNT = 1000;
+export const UPLOAD_URL = '/api/upload';
