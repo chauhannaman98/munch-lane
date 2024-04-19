@@ -4,12 +4,11 @@ import {
     Col,
     ListGroup,
     Image,
-    Form,
     Button,
     Card,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { UseSelector, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import Message from '../components/Message';
@@ -37,9 +36,9 @@ const OrderScreen = () => {
 
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
-    const [payViaRazorPay, { isLoading: loadingRazorPay }] = usePayViaRazorpayMutation();
-    const { data: razorpay, isLoading: loadingRazorpayClientId, error: errorRazorpay } = useGetRazorpayClientIdQuery();
-    const [verifyRazorpay, { isLoading: loadingverify }] = useVerifyRazorpayMutation();
+    const [payViaRazorPay] = usePayViaRazorpayMutation();
+    const { data: razorpay, isLoading: loadingRazorpayClientId } = useGetRazorpayClientIdQuery();
+    const [verifyRazorpay] = useVerifyRazorpayMutation();
 
     const [verifyURL, setVerifyURL] = useState('');
     const [paymentId, setPaymentId] = useState('');
@@ -51,12 +50,12 @@ const OrderScreen = () => {
 
         if (isAuthentic) {
             try {
-                const details = {
-                    id: paymentId,
-                    status: true,
-                    update_time: Date.now(),
-                    email_address: email,
-                }
+                // const details = {
+                //     id: paymentId,
+                //     status: true,
+                //     update_time: Date.now(),
+                //     email_address: email,
+                // }
                 await payOrder({ orderId });
                 refetch();
                 toast.success("Payment successful");
@@ -79,7 +78,7 @@ const OrderScreen = () => {
             signature: signature,
         }
         verifyTransaction(details);
-    }, [paymentId]);
+    }, [paymentId, razorpayOrderId, signature, verifyURL]);
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
@@ -103,7 +102,7 @@ const OrderScreen = () => {
                 }
             }
         }
-    }, [order, paypal, paypalDispatch, loadingPay, errorPaypal]);
+    }, [order, paypal, paypalDispatch, loadingPay, errorPaypal, loadingPaypal]);
 
     const onApprove = (data, actions) => {
         return actions.order.capture().then(async (details) => {
@@ -187,7 +186,7 @@ const OrderScreen = () => {
 
     const deliverOrderHandler = async () => {
         try {
-            const out = await deliverOrder(orderId);
+            await deliverOrder(orderId);
             refetch();
             toast.success(`Order ${orderId} delivered`);
         } catch (error) {

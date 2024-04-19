@@ -22,7 +22,8 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.3",
-    "razorpay": "^2.9.2"
+    "razorpay": "^2.9.2",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "colors": "^1.4.0",

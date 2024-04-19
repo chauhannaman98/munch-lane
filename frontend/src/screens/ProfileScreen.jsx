@@ -8,7 +8,6 @@ import {
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Toast } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useProfileMutation } from '../slices/usersApiSlice';
@@ -23,7 +22,6 @@ const ProfileScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [myOrders, setMyOrders] = useState([]);
 
     const dispath = useDispatch();
 
