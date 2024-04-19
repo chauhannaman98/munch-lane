@@ -78,6 +78,7 @@ const OrderScreen = () => {
             signature: signature,
         }
         verifyTransaction(details);
+        // eslint-disable-next-line
     }, [paymentId, razorpayOrderId, signature, verifyURL]);
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
@@ -116,11 +117,11 @@ const OrderScreen = () => {
         });
     };
 
-    const onApproveTest = async () => {
-        await payOrder({ orderId, details: { payer: {} } });
-        refetch();
-        toast.success("Payment successful");
-    };
+    // const onApproveTest = async () => {
+    //     await payOrder({ orderId, details: { payer: {} } });
+    //     refetch();
+    //     toast.success("Payment successful");
+    // };
 
     const onError = (err) => {
         toast.error(err.message);
