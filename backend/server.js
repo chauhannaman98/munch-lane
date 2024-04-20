@@ -41,6 +41,19 @@ app.get('/api/config/razorpay', (req, res) => res.send({
 const _dirname = path.resolve();    // set to current working directory
 app.use('/uploads', express.static(path.join(_dirname, 'uploads')));
 
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(express.static(path.join(_dirname, '/frontend/build')));
+
+//     console.log("Directing to prod build")
+//     app.get('*', (req, res) =>
+//         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+//     );
+// } else {
+//     app.get('/', (req, res) => {
+//         res.send('API.....');
+//     });
+// }
+
 app.use(notFound);
 app.use(errorHandler);
 
