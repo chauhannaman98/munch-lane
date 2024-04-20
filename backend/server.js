@@ -22,9 +22,9 @@ app.use(express.urlencoded({ extended: true }));
 // cookie parser middleware
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-    res.send("API is running ....")
-});
+// app.get('/', (req, res) => {
+//     res.send("API is running ....")
+// });
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
@@ -41,18 +41,18 @@ app.get('/api/config/razorpay', (req, res) => res.send({
 const _dirname = path.resolve();    // set to current working directory
 app.use('/uploads', express.static(path.join(_dirname, 'uploads')));
 
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static(path.join(_dirname, '/frontend/build')));
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(_dirname, '/frontend/build')));
 
-//     console.log("Directing to prod build")
-//     app.get('*', (req, res) =>
-//         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-//     );
-// } else {
-//     app.get('/', (req, res) => {
-//         res.send('API.....');
-//     });
-// }
+    console.log("redirecting to production build")
+    app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    );
+} else {
+    app.get('/', (req, res) => {
+        res.send('API is running.....');
+    });
+}
 
 app.use(notFound);
 app.use(errorHandler);
