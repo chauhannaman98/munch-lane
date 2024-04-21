@@ -33,7 +33,7 @@ const PlaceOrderScreen = () => {
                 shippingAddress: cart.shippingAddress,
                 paymentMethod: cart.paymentMethod,
                 itemsPrice: cart.itemsPrice,
-                ShippingPrice: cart.ShippingPrice,
+                shippingPrice: cart.shippingPrice,
                 taxPrice: cart.taxPrice,
                 totalPrice: cart.totalPrice,
             }).unwrap();
@@ -106,7 +106,7 @@ const PlaceOrderScreen = () => {
                                 <Row>
                                     <Col>Shipping: </Col>
                                     <Col>
-                                        ₹{cart.ShippingPrice ? cart.shippingAddress : '0'}
+                                        ₹{cart.shippingPrice ? cart.shippingPrice : '0'}
                                     </Col>
                                 </Row>
                             </ListGroup.Item>

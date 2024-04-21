@@ -1,3 +1,5 @@
+import { SHIPPING_RATE, FREE_SHIPPING_AMOUNT } from "../constants";
+
 export const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
 };
@@ -12,7 +14,7 @@ export const updateCart = (state) => {
     state.itemsPrice = addDecimals(itemsPrice);
 
     // Calculate the shipping price
-    const shippingPrice = itemsPrice > 100 ? 0 : 10;
+    const shippingPrice = itemsPrice > FREE_SHIPPING_AMOUNT ? 0 : SHIPPING_RATE;
     state.shippingPrice = addDecimals(shippingPrice);
 
     // Calculate the tax price
