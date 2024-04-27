@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 import Paginate from '../components/Paginate';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
     const { pageNumber, keyword } = useParams();
