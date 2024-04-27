@@ -197,7 +197,7 @@ const OrderScreen = () => {
 
     return (
         isLoading ? (<Loader />)
-            : error ? <Message variant='danger'>{error.data.message}</Message>
+            : error ? <Message variant='danger'>{error?.data?.message || error.message}</Message>
                 : (
                     <>
                         <h1 className='mt-4'>Order# {order._id} </h1>
