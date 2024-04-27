@@ -27,6 +27,7 @@ const HomeScreen = () => {
                     {error?.data?.message || error?.error}
                 </Message>
             ) : (<>
+                <Meta title="Welcome to Munch Lane" />
                 <h1>Lastest Products</h1>
                 <Row>
                     {data.products.map((product) => (
